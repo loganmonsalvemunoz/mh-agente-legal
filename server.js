@@ -91,13 +91,13 @@ app.use('/widget', express.static(path.join(__dirname, 'public', 'widget')));
 // Logo oficial: publico y sin CORS (las etiquetas <img> no lo necesitan), asi el widget
 // tambien lo puede cargar cuando esta embebido en un origen distinto (WordPress).
 app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')));
-if (!isProd) {
-  // Pagina de prueba local que simula el sitio de WordPress embebiendo el widget —
-  // mismo origen que la API, asi no hace falta tocar CORS solo para probar en local.
-  app.use('/test', express.static(path.join(__dirname, 'public', 'test')));
-}
+// Pagina de demostracion: simula el sitio de WordPress embebiendo el widget. Se sirve
+// siempre (tambien en producción) porque es la unica forma de VER el widget funcionando
+// sin tocar el sitio real todavia — al ser mismo origen que la API, no choca con el CORS
+// que restringe el canal a mhgrupoempresarial.com.
+app.use('/test', express.static(path.join(__dirname, 'public', 'test')));
 
-app.get('/', (req, res) => res.redirect(adminEnabled ? '/admin' : '/widget/widget.js'));
+app.get('/', (req, res) => res.redirect(adminEnabled ? '/admin' : '/test/'));
 
 app.listen(PORT, () => {
   if (adminEnabled) {
