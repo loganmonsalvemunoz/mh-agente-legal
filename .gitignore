@@ -1,0 +1,11 @@
+node_modules/
+auth_info_baileys/
+.env
+data/*.db
+data/*.db-journal
+data/*.db-shm
+data/*.db-wal
+.env.staging.tmp
+.env.*.tmp
+uploads/*
+!uploads/.gitkeep

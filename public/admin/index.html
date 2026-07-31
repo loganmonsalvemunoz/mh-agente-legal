@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MH Grupo Empresarial — Agente Legal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="login-view" class="view">
+  <div class="login-card">
+    <div class="brand-logo">
+      <img src="/assets/logo.png" alt="MH Grupo Empresarial" class="brand-logo-img" />
+    </div>
+    <h1>Agente Legal — Panel</h1>
+    <p class="muted">Leads, conversaciones y casos escalados</p>
+    <form id="login-form">
+      <label>Usuario
+        <input type="text" name="username" autocomplete="username" required />
+      </label>
+      <label>Contraseña
+        <input type="password" name="password" autocomplete="current-password" required />
+      </label>
+      <p id="login-error" class="error hidden"></p>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<div id="dashboard-view" class="view hidden">
+  <header class="topbar">
+    <div class="brand-logo small">
+      <img src="/assets/logo.png" alt="MH Grupo Empresarial" class="brand-logo-img small" />
+      <span class="logo-sub">AGENTE LEGAL</span>
+    </div>
+    <div class="topbar-right">
+      <span id="wa-status-pill" class="pill pill-warn">Verificando WhatsApp…</span>
+      <button id="logout-btn" class="btn-ghost">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="qr-card" class="card hidden">
+      <h2>Vincula el número de WhatsApp</h2>
+      <p class="muted">WhatsApp → Ajustes → Dispositivos vinculados → Vincular un dispositivo, y escanea este código.</p>
+      <img id="qr-image" alt="Código QR de WhatsApp" />
+    </section>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="pedidos">Pedidos de cursos <span id="count-pedidos" class="badge"></span></button>
+      <button class="tab-btn" data-tab="escalados">Casos escalados <span id="count-escalados" class="badge"></span></button>
+      <button class="tab-btn" data-tab="leads">Leads capturados</button>
+      <button class="tab-btn" data-tab="conversaciones">Conversaciones</button>
+    </nav>
+
+    <section id="tab-pedidos" class="tab-panel">
+      <h2 class="section-title">Pendientes de revisión</h2>
+      <div id="orders-revision" class="orders-grid"></div>
+      <p id="empty-revision" class="muted hidden">No hay pedidos pendientes de revisión.</p>
+
+      <h2 class="section-title">Historial completo</h2>
+      <table class="tabla">
+        <thead>
+          <tr><th>Pedido</th><th>Cliente</th><th>Productos</th><th>Total</th><th>Estado</th><th>Fecha</th></tr>
+        </thead>
+        <tbody id="orders-historial"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-escalados" class="tab-panel hidden">
+      <div id="lista-escalados" class="list"></div>
+      <p id="empty-escalados" class="muted hidden">No hay casos escalados pendientes.</p>
+    </section>
+
+    <section id="tab-leads" class="tab-panel hidden">
+      <div class="filters">
+        <select id="filtro-area"><option value="">Todas las áreas</option></select>
+        <select id="filtro-status">
+          <option value="">Todos los estados</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="contactado">Contactado</option>
+          <option value="cerrado">Cerrado</option>
+        </select>
+        <select id="filtro-canal">
+          <option value="">Todos los canales</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="web">Web</option>
+        </select>
+      </div>
+      <table class="tabla">
+        <thead>
+          <tr><th>Nombre</th><th>Área</th><th>Canal</th><th>Teléfono</th><th>Correo</th><th>Ciudad</th><th>Resumen</th><th>Estado</th><th>Fecha</th><th></th></tr>
+        </thead>
+        <tbody id="tabla-leads"></tbody>
+      </table>
+    </section>
+
+    <section id="tab-conversaciones" class="tab-panel hidden">
+      <table class="tabla">
+        <thead>
+          <tr><th>Contacto</th><th>Canal</th><th>Paso actual</th><th>Área</th><th>Última actividad</th></tr>
+        </thead>
+        <tbody id="tabla-conversaciones"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
