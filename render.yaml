@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mh-agente-legal-widget
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Borrador de prueba: solo el widget web queda activo, sin panel admin ni WhatsApp.
+      - key: ADMIN_ENABLED
+        value: "false"
+      - key: WHATSAPP_ENABLED
+        value: "false"
+      - key: SESSION_SECRET
+        generateValue: true
+      # Cambia esto al dominio real cuando lo embebas en WordPress.
+      - key: WIDGET_ALLOWED_ORIGIN
+        value: "https://mhgrupoempresarial.com"
+      - key: LOG_LEVEL
+        value: warn

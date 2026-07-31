@@ -1,0 +1,26 @@
+{
+  "name": "mh-agente-legal",
+  "version": "1.0.0",
+  "description": "Agente de triage e intake juridico (WhatsApp + widget web) para MH Grupo Empresarial",
+  "type": "module",
+  "private": true,
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "hash-password": "node scripts/hash-password.js"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@whiskeysockets/baileys": "^6.7.9",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "pino": "^9.3.2",
+    "qrcode": "^1.5.4"
+  }
+}
