@@ -11,18 +11,18 @@ export const AREAS = {
     nombreMenu: 'Derecho laboral',
     temas: 'Despidos, liquidaciones, salarios, prestaciones, acoso laboral, estabilidad laboral reforzada.',
     preguntas: [
-      '¿Hace cuánto terminó (o está por terminar) la relación laboral?',
-      '¿Tienes contrato escrito?',
+      '¿Hace cuánto terminó tu trabajo, o está por terminar?',
+      '¿Firmaste un contrato por escrito?',
     ],
-    notaTema: 'Analizaremos tus derechos bajo el Código Sustantivo del Trabajo.',
+    notaTema: 'Vamos a mirar con calma qué derechos tienes según tu situación laboral.',
     tarifa: { tipo: 'fija', valor: 80000 },
   },
   familia: {
     nombreMenu: 'Derecho de familia',
     temas: 'Divorcios, custodia, alimentos, visitas, sucesiones, unión marital de hecho.',
     preguntas: [
-      '¿De qué trata tu caso: divorcio, custodia, alimentos, visitas, sucesión o unión marital de hecho?',
-      '¿Hay algún proceso judicial ya iniciado sobre este tema?',
+      'Cuéntame, ¿tu caso es de divorcio, custodia de hijos, cuota de alimentos, visitas, una herencia o unión libre?',
+      '¿Ya hay algo de esto en un juzgado, o todavía no?',
     ],
     notaTema: null,
     tarifa: { tipo: 'fija', valor: 80000 },
@@ -31,8 +31,8 @@ export const AREAS = {
     nombreMenu: 'Derecho civil',
     temas: 'Incumplimientos contractuales, deudas, responsabilidad civil, restituciones.',
     preguntas: [
-      '¿Tu caso es sobre un incumplimiento de contrato, una deuda, responsabilidad civil o una restitución?',
-      '¿Existe algún documento o contrato firmado relacionado?',
+      '¿Tu caso es porque alguien no cumplió un contrato, por una deuda, un daño que te causaron, o para recuperar un bien?',
+      '¿Tienes algún contrato o documento firmado sobre esto?',
     ],
     notaTema: null,
     tarifa: { tipo: 'fija', valor: 80000 },
@@ -41,18 +41,18 @@ export const AREAS = {
     nombreMenu: 'Derecho penal',
     temas: 'Denuncias, representación de víctimas, indiciados, acusados, audiencias y acompañamiento judicial.',
     preguntas: [
-      '¿Eres víctima, indiciado o acusado en este caso?',
-      '¿Ya existe una denuncia o proceso penal formalmente iniciado?',
+      'Para entender bien tu caso: ¿eres la víctima, o a ti te están investigando o acusando?',
+      '¿Ya pusiste (o te pusieron) una denuncia formal?',
     ],
-    notaTema: 'Dado que son casos de alta sensibilidad y complejidad técnica, tras analizar tu información, el equipo jurídico te comunicará el valor de la asesoría.',
+    notaTema: 'Como estos casos son delicados y cada uno es distinto, en cuanto revise bien tu información el equipo jurídico te dice cuánto valdría tu asesoría.',
     tarifa: { tipo: 'variable' },
   },
   transito: {
     nombreMenu: 'Tránsito',
     temas: 'Fotomultas, comparendos, accidentes de tránsito, recursos y nulidades.',
     preguntas: [
-      '¿Tu caso es sobre una fotomulta, un comparendo o un accidente de tránsito?',
-      '¿Tienes el número o copia de la infracción/accidente?',
+      '¿Tu caso es por una fotomulta, un comparendo, o un accidente de tránsito?',
+      '¿Tienes a la mano el número de la infracción o algún documento del accidente?',
     ],
     notaTema: null,
     tarifa: { tipo: 'fija', valor: 80000 },
@@ -61,16 +61,16 @@ export const AREAS = {
     nombreMenu: 'Pensiones y seguridad social',
     temas: 'Reconocimiento de pensión, reliquidaciones, invalidez y sobrevivientes.',
     preguntas: [
-      '¿Tu caso es sobre reconocimiento de pensión, reliquidación, invalidez o sobrevivientes?',
+      '¿Estás tramitando tu pensión, quieres que te la recalculen, o es por invalidez o por ser beneficiario de alguien que falleció?',
     ],
-    notaTema: 'Revisaremos tu historial bajo Ley 100 de 1993. Necesitamos ver tu historia laboral para validar requisitos.',
+    notaTema: 'Vamos a revisar tu historia laboral para ver si ya cumples los requisitos.',
     tarifa: { tipo: 'fija', valor: 80000 },
   },
   administrativo: {
     nombreMenu: 'Derecho administrativo',
     temas: 'Derechos de petición, recursos, actuaciones ante entidades públicas y demandas.',
     preguntas: [
-      '¿Tu caso es sobre un derecho de petición, un recurso, una actuación ante una entidad pública o una demanda?',
+      '¿Tu caso es sobre un derecho de petición, un recurso, algún trámite con una entidad del Estado, o una demanda?',
     ],
     notaTema: null,
     tarifa: { tipo: 'fija', valor: 80000 },
@@ -79,16 +79,16 @@ export const AREAS = {
     nombreMenu: 'Derecho disciplinario',
     temas: 'Representación judicial, descargos, acompañamiento en audiencias, alegatos.',
     preguntas: [
-      '¿Ya recibiste un pliego de cargos o citación a descargos?',
+      '¿Ya te llegó un pliego de cargos o te citaron a descargos?',
     ],
-    notaTema: 'Dado que son casos de alta sensibilidad y complejidad técnica, tras analizar tu información, el equipo jurídico te comunicará el valor de la asesoría.',
+    notaTema: 'Como estos casos son delicados y cada uno es distinto, en cuanto revise bien tu información el equipo jurídico te dice cuánto valdría tu asesoría.',
     tarifa: { tipo: 'variable' },
   },
   tutela: {
     nombreMenu: 'Acción de tutela',
     temas: 'Afectación de derechos fundamentales.',
     preguntas: [
-      '¿Qué derecho fundamental sientes que se está afectando: vida, salud, educación, mínimo vital, debido proceso, petición o seguridad social?',
+      'Cuéntame, ¿qué derecho sientes que te están vulnerando: la salud, la educación, el mínimo para vivir, un debido proceso, una respuesta que te deben, o tu seguridad social?',
     ],
     notaTema: null,
     tarifa: { tipo: 'fija', valor: 80000 },
@@ -112,5 +112,5 @@ export function formatoAlcanceTarifa(area) {
   if (area.tarifa.tipo === 'variable') {
     return area.notaTema;
   }
-  return 'Concepto verbal orientador (análisis de tu información). No incluye trámites, documentos ni representación judicial. Cualquier trámite adicional (redacción, representación, etc.) se cotiza por separado.';
+  return 'Ahí reviso tu caso con calma y te doy mi concepto sobre qué puedes hacer. Si después necesitas que te redactemos algún documento o te representemos, eso ya se cotiza aparte.';
 }
