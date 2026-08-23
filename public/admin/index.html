@@ -37,16 +37,23 @@
       <span class="logo-sub">AGENTE LEGAL</span>
     </div>
     <div class="topbar-right">
-      <span id="wa-status-pill" class="pill pill-warn">Verificando WhatsApp…</span>
+      <span id="wa-status-pill" class="pill pill-warn">Bot de pedidos: verificando…</span>
+      <span id="wa-status-pill-general" class="pill pill-neutral">Bot general: verificando…</span>
       <button id="logout-btn" class="btn-ghost">Cerrar sesión</button>
     </div>
   </header>
 
   <main>
     <section id="qr-card" class="card hidden">
-      <h2>Vincula el número de WhatsApp</h2>
-      <p class="muted">WhatsApp → Ajustes → Dispositivos vinculados → Vincular un dispositivo, y escanea este código.</p>
-      <img id="qr-image" alt="Código QR de WhatsApp" />
+      <h2>Vincula el número del bot de pedidos</h2>
+      <p class="muted">WhatsApp → Ajustes → Dispositivos vinculados → Vincular un dispositivo, y escanea este código con el número que solo maneja pedidos de cursos.</p>
+      <img id="qr-image" alt="Código QR del bot de pedidos" />
+    </section>
+
+    <section id="qr-card-general" class="card hidden">
+      <h2>Vincula el número del bot de atención general</h2>
+      <p class="muted">Usa un número de WhatsApp distinto al del bot de pedidos — no pueden compartir número. WhatsApp → Ajustes → Dispositivos vinculados → Vincular un dispositivo, y escanea este código.</p>
+      <img id="qr-image-general" alt="Código QR del bot de atención general" />
     </section>
 
     <nav class="tabs">

@@ -96,7 +96,14 @@ $$('.tab-btn').forEach((btn) => {
 });
 
 async function refreshAll() {
-  await Promise.all([refreshWhatsappStatus(), refreshOrders(), refreshEscalados(), refreshLeads(), refreshConversaciones()]);
+  await Promise.all([
+    refreshWhatsappStatus(),
+    refreshWhatsappStatusGeneral(),
+    refreshOrders(),
+    refreshEscalados(),
+    refreshLeads(),
+    refreshConversaciones(),
+  ]);
 }
 
 function formatCOP(v) {
@@ -184,21 +191,43 @@ async function refreshWhatsappStatus() {
     const pill = $('#wa-status-pill');
     const qrCard = $('#qr-card');
     if (status.state === 'open') {
-      pill.textContent = 'WhatsApp conectado';
+      pill.textContent = 'Bot de pedidos: conectado';
       pill.className = 'pill pill-ok';
       qrCard.classList.add('hidden');
     } else if (status.state === 'qr') {
-      pill.textContent = 'Esperando escaneo de QR';
+      pill.textContent = 'Bot de pedidos: escanea el QR';
       pill.className = 'pill pill-warn';
       qrCard.classList.remove('hidden');
       $('#qr-image').src = status.qrDataUrl;
     } else if (status.state === 'disabled') {
-      pill.textContent = 'WhatsApp deshabilitado (solo widget web)';
+      pill.textContent = 'Bot de pedidos: deshabilitado';
       pill.className = 'pill pill-neutral';
       qrCard.classList.add('hidden');
     } else {
-      pill.textContent = 'WhatsApp desconectado';
+      pill.textContent = 'Bot de pedidos: desconectado';
       pill.className = 'pill pill-bad';
+      qrCard.classList.add('hidden');
+    }
+  } catch (err) { /* manejado por api() */ }
+}
+
+async function refreshWhatsappStatusGeneral() {
+  try {
+    const status = await api('/whatsapp-general/status');
+    const pill = $('#wa-status-pill-general');
+    const qrCard = $('#qr-card-general');
+    if (status.state === 'open') {
+      pill.textContent = 'Bot general: conectado';
+      pill.className = 'pill pill-ok';
+      qrCard.classList.add('hidden');
+    } else if (status.state === 'qr') {
+      pill.textContent = 'Bot general: escanea el QR';
+      pill.className = 'pill pill-warn';
+      qrCard.classList.remove('hidden');
+      $('#qr-image-general').src = status.qrDataUrl;
+    } else {
+      pill.textContent = 'Bot general: sin número configurado';
+      pill.className = 'pill pill-neutral';
       qrCard.classList.add('hidden');
     }
   } catch (err) { /* manejado por api() */ }
