@@ -84,6 +84,15 @@ CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_orders_code ON orders(order_code);
 `);
 
+// Migracion ligera: agrega la columna de intentos de verificacion OCR a bases de datos creadas
+// antes de esta funcionalidad. SQLite no soporta "ADD COLUMN IF NOT EXISTS" — se ignora el
+// error si la columna ya existe (mismo patron que cualquier migracion aditiva simple).
+try {
+  db.exec('ALTER TABLE orders ADD COLUMN verification_attempts INTEGER NOT NULL DEFAULT 0');
+} catch {
+  // La columna ya existe — no hay nada que hacer.
+}
+
 export const ORDER_STATUS = {
   PENDING_PROOF: 'pending_proof',
   PENDING_REVIEW: 'pending_review',
@@ -163,6 +172,16 @@ export function setOrderStatus(id, status, reviewedBy = null) {
     `UPDATE orders SET status = ?, reviewed_by = COALESCE(?, reviewed_by), updated_at = datetime('now') WHERE id = ?`
   ).run(status, reviewedBy, id);
   return getOrderById(id);
+}
+
+// Cuenta cuantas veces el cliente ha enviado un comprobante que el OCR no logro validar para
+// este pedido — tras varias veces (ver MAX_INTENTOS_VERIFICACION en whatsapp.js) se escala a
+// un asesor humano en vez de seguir pidiendo reintentos indefinidamente.
+export function incrementOrderVerificationAttempts(id) {
+  db.prepare(
+    `UPDATE orders SET verification_attempts = verification_attempts + 1, updated_at = datetime('now') WHERE id = ?`
+  ).run(id);
+  return getOrderById(id).verification_attempts;
 }
 
 export const STEP = {

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as db from '../db.js';
 import { getConnectionInfo, enviarTexto } from '../whatsapp.js';
+import { getConnectionInfoGeneral } from '../whatsappGeneral.js';
 import { mensajeAprobado, mensajeRechazado } from '../lib/messages.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -44,6 +45,12 @@ router.get('/session', (req, res) => {
 
 router.get('/whatsapp/status', requireAuth, (req, res) => {
   res.json(getConnectionInfo());
+});
+
+// Bot general (consultas de todo tipo) — solo relevante cuando haya numero dedicado y
+// WHATSAPP_GENERAL_ENABLED=true; mientras tanto devuelve el estado "disconnected" normal.
+router.get('/whatsapp-general/status', requireAuth, (req, res) => {
+  res.json(getConnectionInfoGeneral());
 });
 
 router.get('/leads', requireAuth, (req, res) => {

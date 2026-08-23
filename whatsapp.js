@@ -18,16 +18,26 @@ import { fileURLToPath } from 'node:url';
 // ese motor de triage juridico completo vive unicamente en el widget web (routes/widget.js).
 // Cualquier mensaje que no sea sobre un pedido se redirige al chat de la pagina, nunca se
 // intenta responder aqui.
-import { pareceMensajeDePedido, parsearPedido } from './lib/parser.js';
+import { pareceMensajeDePedido, parsearPedido, pareceQuiereMasCursos } from './lib/parser.js';
 import { esSaludo } from './lib/faq.js';
 import * as db from './db.js';
+import { verificarComprobante } from './lib/ocr.js';
 import {
   mensajeAckPedido,
   mensajeComprobanteRecibido,
   mensajeImagenSinPedido,
   mensajeRedirigirAWeb,
   mensajeBienvenidaCursos,
+  mensajeAprobado,
+  mensajeMontoNoCoincide,
+  mensajeEscaladoVerificacionPedido,
+  mensajeCursos,
 } from './lib/messages.js';
+
+// Numero de intentos de verificacion OCR fallidos antes de escalar a un asesor humano por
+// WhatsApp (ver mensajeEscaladoVerificacionPedido) — sin esto, un comprobante que el OCR nunca
+// logra leer dejaria al cliente pidiendo reenvios para siempre.
+const MAX_INTENTOS_VERIFICACION = 2;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -178,6 +188,13 @@ async function handleIncomingMessage(sock, m) {
     return;
   }
 
+  // Si el cliente quiere comprar mas cursos, lo mandamos a la pagina de pago en vez del
+  // mensaje generico de "escribenos por la web" (esa redireccion es para dudas, no para compras).
+  if (pareceQuiereMasCursos(text)) {
+    await enviarTexto(jid, mensajeCursos());
+    return;
+  }
+
   // Cualquier otro mensaje: este canal solo gestiona cursos — se redirige al chat de la
   // pagina web (widget), que sí tiene el flujo completo de asesoría/inmobiliaria/FAQ.
   await enviarTexto(jid, mensajeRedirigirAWeb());
@@ -208,4 +225,24 @@ async function handleImageMessage(sock, m, jid) {
 
   db.setOrderProof(order.id, filename);
   await enviarTexto(jid, mensajeComprobanteRecibido(order));
+
+  // Verificacion automatica de fraude: el OCR lee el monto (y, si esta, el codigo de
+  // referencia) directamente de la imagen y lo compara con el pedido — sin depender del
+  // panel admin (apagado por decision del negocio). Ver lib/ocr.js para el detalle y las
+  // limitaciones conocidas.
+  const verificacion = await verificarComprobante(buffer, order);
+
+  if (verificacion.montoCoincide) {
+    db.setOrderStatus(order.id, db.ORDER_STATUS.DELIVERED, 'auto-ocr');
+    await enviarTexto(jid, mensajeAprobado(order));
+    return;
+  }
+
+  const intentos = db.incrementOrderVerificationAttempts(order.id);
+  if (intentos >= MAX_INTENTOS_VERIFICACION) {
+    db.setOrderStatus(order.id, db.ORDER_STATUS.PENDING_REVIEW, 'auto-ocr');
+    await enviarTexto(jid, mensajeEscaladoVerificacionPedido(order));
+  } else {
+    await enviarTexto(jid, mensajeMontoNoCoincide(order));
+  }
 }

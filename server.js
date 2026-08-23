@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import adminRouter from './routes/admin.js';
 import widgetRouter from './routes/widget.js';
 import { connectToWhatsApp } from './whatsapp.js';
+import { connectWhatsappGeneral } from './whatsappGeneral.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 3100;
@@ -20,6 +21,10 @@ const adminEnabled = process.env.ADMIN_ENABLED !== 'false';
 // Independiente del panel: apaga el canal de pedidos por WhatsApp sin tocar el widget web
 // ni el panel admin (que sigue sirviendo para revisar leads/conversaciones del widget).
 const whatsappEnabled = process.env.WHATSAPP_ENABLED !== 'false';
+// Segundo bot de WhatsApp (consultas generales, mismo motor que el widget) — APAGADO por
+// defecto: todavia no hay un numero de WhatsApp dedicado para el. Activar con
+// WHATSAPP_GENERAL_ENABLED=true en cuanto haya numero (ver whatsappGeneral.js).
+const whatsappGeneralEnabled = process.env.WHATSAPP_GENERAL_ENABLED === 'true';
 
 // Estas credenciales solo las necesita el panel admin — si esta apagado, el widget no
 // depende de ellas para nada.
@@ -119,4 +124,14 @@ if (whatsappEnabled && adminEnabled) {
   console.log('[server] Canal de WhatsApp deshabilitado (WHATSAPP_ENABLED=false). Solo el widget web está activo.');
 } else {
   console.log('[server] Conexión de WhatsApp en pausa (panel admin deshabilitado).');
+}
+
+// Bot general (consultas de todo tipo, mismo motor del widget) — solo se conecta si hay numero
+// dedicado configurado (WHATSAPP_GENERAL_ENABLED=true). Ver comentario de whatsappGeneralEnabled.
+if (whatsappGeneralEnabled && adminEnabled) {
+  connectWhatsappGeneral().catch((err) => {
+    console.error('[server] Error conectando WhatsApp General:', err);
+  });
+} else if (whatsappGeneralEnabled && !adminEnabled) {
+  console.log('[server] Bot general de WhatsApp en pausa (panel admin deshabilitado).');
 }

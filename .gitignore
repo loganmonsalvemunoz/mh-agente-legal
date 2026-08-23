@@ -1,6 +1,9 @@
 node_modules/
 auth_info_baileys/
+auth_info_baileys_general/
 .env
+# Cache local de tesseract.js (modelo de OCR) — se descarga solo la primera vez que corre.
+*.traineddata
 data/*.db
 data/*.db-journal
 data/*.db-shm

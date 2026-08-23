@@ -8,11 +8,24 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Borrador de prueba: solo el widget web queda activo, sin panel admin ni WhatsApp.
+      # Periodo de prueba (activado a proposito): panel admin + bot de WhatsApp de cursos
+      # encendidos para probar la verificacion automatica de pago (OCR) con pedidos reales.
+      # Para volver a apagarlos: pon ambos en "false" de nuevo y sube el cambio.
       - key: ADMIN_ENABLED
-        value: "false"
+        value: "true"
       - key: WHATSAPP_ENABLED
+        value: "true"
+      # Segundo bot de WhatsApp (consultas generales) — sigue apagado, todavia no hay numero
+      # dedicado para el (ver whatsappGeneral.js).
+      - key: WHATSAPP_GENERAL_ENABLED
         value: "false"
+      - key: ADMIN_USER
+        value: "admin"
+      # Hash de una contrasena de prueba generada para este periodo — el valor en claro se
+      # entrego aparte (nunca se guarda en texto plano en el repo). Cambiala cuando quieras
+      # con: npm run hash-password -- "tu-clave-nueva"
+      - key: ADMIN_PASSWORD_HASH
+        value: "$2a$10$raCpk5s0TEazaWoqkLM..OR9ZIjC1w0uu.9ht1XAlU2qNdKbd7kM2"
       - key: SESSION_SECRET
         generateValue: true
       # Cambia esto al dominio real cuando lo embebas en WordPress.
