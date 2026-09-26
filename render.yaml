@@ -8,13 +8,13 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # Periodo de prueba (activado a proposito): panel admin + bot de WhatsApp de cursos
-      # encendidos para probar la verificacion automatica de pago (OCR) con pedidos reales.
-      # Para volver a apagarlos: pon ambos en "false" de nuevo y sube el cambio.
+      # Panel admin encendido (leads del chat). Bot de WhatsApp de pedidos APAGADO a proposito:
+      # los Cursos para Dummies todavia no estan disponibles. Para reactivarlo, pon
+      # WHATSAPP_ENABLED en "true", sube el cambio y vuelve a escanear el QR en /admin.
       - key: ADMIN_ENABLED
         value: "true"
       - key: WHATSAPP_ENABLED
-        value: "true"
+        value: "false"
       # Segundo bot de WhatsApp (consultas generales) — sigue apagado, todavia no hay numero
       # dedicado para el (ver whatsappGeneral.js).
       - key: WHATSAPP_GENERAL_ENABLED
