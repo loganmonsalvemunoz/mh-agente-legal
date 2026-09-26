@@ -102,7 +102,7 @@
   panel.innerHTML =
     '<div class="mh-lw-header">' +
     '<img src="' + API_BASE + '/assets/logo.png" alt="MH Grupo Empresarial" />' +
-    '<span><span class="sub">MH · tu asesor virtual</span></span>' +
+    '<span><span class="sub">Tu asesor virtual</span></span>' +
     '</div>' +
     '<div class="mh-lw-messages"></div>' +
     '<div class="mh-lw-inputbar">' +
@@ -183,7 +183,7 @@
     if (started) return Promise.resolve();
     started = true;
     if (contactId) {
-      addMessage('¡Hola de nuevo! 😊 Soy MH otra vez. Escribe "menú" si quieres ver las opciones.', 'bot');
+      addMessage('¡Hola de nuevo! 😊 Escribe "menú" si quieres ver las opciones.', 'bot');
       return Promise.resolve();
     }
     showTyping();
